@@ -1,7 +1,7 @@
 [project]
 name = "crucible"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.0.0"
+description = "Multi-agent claim reasoning engine (work in progress)"
 readme = "README.md"
 authors = [
     { name = "Haseeb Ahmad", email = "haseebahmad.me625@gmail.com" }
@@ -15,3 +15,8 @@ crucible = "crucible:main"
 [build-system]
 requires = ["uv_build>=0.12.22,<0.13.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
