@@ -1,7 +1,7 @@
 [project]
 name = "crucible"
-version = "0.0.0"
-description = "Multi-agent claim reasoning engine (work in progress)"
+version = "0.1.0"
+description = "Multi-agent claim reasoning engine (CLI)"
 readme = "README.md"
 authors = [
     { name = "Haseeb Ahmad", email = "haseebahmad.me625@gmail.com" }
