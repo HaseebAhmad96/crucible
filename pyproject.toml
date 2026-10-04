@@ -1,13 +1,19 @@
 [project]
 name = "crucible"
-version = "0.0.0"
-description = "Multi-agent claim reasoning engine (work in progress)"
+version = "0.1.0"
+description = "Multi-agent claim reasoning engine (CLI)"
 readme = "README.md"
 authors = [
     { name = "Haseeb Ahmad", email = "haseebahmad.me625@gmail.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "groq>=0.37.1",
+    "langchain-groq>=1.1.3",
+    "langgraph>=1.2.12",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.4",
+]
 
 [project.scripts]
 crucible = "crucible:main"
