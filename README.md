@@ -35,7 +35,17 @@ The tests use a fake LLM, so they need no API key and make no network calls.
                    ^                              |
                    +---- low confidence ----------+
 
-The Judge returns a verdict and a confidence. If confidence is below the threshold and rounds remain, the graph loops back to the Skeptic. It stops when confidence is high enough or the round limit is reached. The full reasoning trace is printed to the terminal.
+Each agent is a class (`BaseAgent` subclasses) and each graph node is the agent's `run` method. All data is validated with Pydantic models: `Claim`, `Evidence`, `Verdict` and `DebateState`. The Judge returns a `Verdict`; if its confidence is below the threshold and rounds remain, the graph loops back to the Skeptic. The full reasoning trace is printed to the terminal.
+
+## Project layout
+
+    src/crucible/
+    +-- agents/    BaseAgent, Proposer, Skeptic, EvidenceGatherer, Judge
+    +-- schemas/   Claim, Evidence, Verdict, DebateState
+    +-- graph/     builder.py (LangGraph workflow)
+    +-- cli.py     command-line interface
+    +-- llm.py     Groq client setup
+    +-- config.py  environment settings
 
 ## Configuration
 
@@ -58,3 +68,4 @@ The Judge returns a verdict and a confidence. If confidence is below the thresho
 |---|---|
 | v0.0.0 | Engineering foundation (uv, Git, tests) |
 | v0.1.0 | LangGraph reasoning CLI with a real LLM and mock evidence |
+| v0.2.0 | Pydantic schemas and agent classes (structured state) |
