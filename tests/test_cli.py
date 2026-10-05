@@ -2,6 +2,8 @@ import pytest
 from fakes import FakeLlm
 
 from crucible import cli
+from crucible.errors import CrucibleError
+from crucible.schemas import Claim
 
 
 def testCliPrintsTraceAndFinalVerdict(monkeypatch, capsys):
@@ -33,3 +35,24 @@ def testCliExitsWithErrorWhenLlmFails(monkeypatch, capsys):
 
     assert Caught.value.code == 1
     assert "ERROR" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("BadClaim", ["Hi", "     ", "a" * 501])
+def testCliRejectsAnInvalidClaimBeforeCallingTheLlm(monkeypatch, capsys, BadClaim):
+    def failIfCalled():
+        raise AssertionError("createLlm must not run for an invalid claim")
+
+    monkeypatch.setattr(cli, "createLlm", failIfCalled)
+    monkeypatch.setattr("sys.argv", ["crucible", BadClaim])
+
+    with pytest.raises(SystemExit) as Caught:
+        cli.main()
+
+    assert Caught.value.code == 1
+    assert "Invalid claim" in capsys.readouterr().err
+
+
+def testValidateFinalStateRejectsBadData():
+    BadSnapshot = {"claim": Claim(text="A valid claim"), "verdict": "not-a-verdict"}
+    with pytest.raises(CrucibleError):
+        cli.validateFinalState(BadSnapshot)
